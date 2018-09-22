@@ -34,34 +34,28 @@ public class RegisterController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-
         btnCreate.setOnAction(event -> registration());
         btnBackToLogin.setOnAction(event -> btnBackToLogin());
-
     }
 
     private void registration() {
-
-        if(!txtName.getText().isEmpty()&&!txtEmail.getText().isEmpty()&&!password.getText().isEmpty()){
-            if(password.getText().equals(rePassword.getText())){
+        if (!txtName.getText().isEmpty() && !txtEmail.getText().isEmpty() && !password.getText().isEmpty()) {
+            if (password.getText().equals(rePassword.getText())) {
                 UserDao userDaoImpl = DaoFactory.getUserDao();
                 try {
-                    if(userDaoImpl.findByEmail(txtEmail.getText())==null){
+                    if (userDaoImpl.findByEmail(txtEmail.getText()) == null) {
                         User user = new User();
                         user.setName(txtName.getText());
                         user.setEmail(txtEmail.getText());
                         user.setPassword(password.getText());
                         userDaoImpl.save(user);
                         toTodos();
-                    }else System.out.println("User with such email has already registered");
+                    } else System.out.println("User with such email has already registered");
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
-
-
-            }else System.out.println("Passwords don`t match");
-        }else System.out.println("Fill all fields");
-
+            } else System.out.println("Passwords don`t match");
+        } else System.out.println("Fill all fields");
     }
 
     private void btnBackToLogin() {
@@ -71,6 +65,7 @@ public class RegisterController implements Initializable {
             e.printStackTrace();
         }
     }
+
     private void toTodos() {
         try {
             new AppManager().getStage().setScene(new Scene(FXMLLoader.load(getClass().getResource("/view/todos.fxml"))));
