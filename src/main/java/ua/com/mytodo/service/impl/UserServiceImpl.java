@@ -17,4 +17,15 @@ public class UserServiceImpl implements UserService {
             return null;
         }
     }
+
+    @Override
+    public void save(User user) {
+        try {
+            DaoFactory.getUserDao().save(user);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+
 }

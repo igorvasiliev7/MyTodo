@@ -7,15 +7,13 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
-import ua.com.mytodo.dao.UserDao;
-import ua.com.mytodo.dao.factory.DaoFactory;
-import ua.com.mytodo.dao.impl.UserDaoImpl;
 import ua.com.mytodo.model.User;
+import ua.com.mytodo.service.UserService;
+import ua.com.mytodo.service.factory.ServiceFactory;
 import ua.com.mytodo.start.AppManager;
 
 import java.io.IOException;
 import java.net.URL;
-import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 public class RegisterController implements Initializable {
@@ -40,22 +38,26 @@ public class RegisterController implements Initializable {
 
     private void registration() {
         if (!txtName.getText().isEmpty() && !txtEmail.getText().isEmpty() && !password.getText().isEmpty()) {
-            if (password.getText().equals(rePassword.getText())) {
-                UserDao userDaoImpl = DaoFactory.getUserDao();
-                try {
-                    if (userDaoImpl.findByEmail(txtEmail.getText()) == null) {
-                        User user = new User();
-                        user.setName(txtName.getText());
-                        user.setEmail(txtEmail.getText());
-                        user.setPassword(password.getText());
-                        userDaoImpl.save(user);
-                        toTodos();
-                    } else System.out.println("User with such email has already registered");
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-            } else System.out.println("Passwords don`t match");
-        } else System.out.println("Fill all fields");
+        } else {
+            System.out.println("Fill all fields"); return;
+        }
+
+        if (password.getText().equals(rePassword.getText())) {
+        } else {
+            System.out.println("Passwords don`t match"); return;
+        }
+
+        UserService userServiceImpl = ServiceFactory.getUserService();
+        if (userServiceImpl.findByEmail(txtEmail.getText()) == null) {
+            User user = new User();
+            user.setName(txtName.getText());
+            user.setEmail(txtEmail.getText());
+            user.setPassword(password.getText());
+            userServiceImpl.save(user);
+            toTodos();
+        } else System.out.println("User with such email has already registered");
+
+
     }
 
     private void btnBackToLogin() {
