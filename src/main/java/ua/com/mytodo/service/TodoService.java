@@ -10,5 +10,7 @@ public interface TodoService {
 
     List<Todo> findAll();
 
+    Todo findTheLastOne();
+
     void delete(int id);
 }

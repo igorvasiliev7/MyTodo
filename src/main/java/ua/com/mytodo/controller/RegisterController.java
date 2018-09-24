@@ -30,47 +30,45 @@ public class RegisterController implements Initializable {
     @FXML
     private TextField txtEmail;
 
+    private static final String TODO_NAME = "todos.fxml";
+    private static final String LOGIN_NAME = "login.fxml";
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         btnCreate.setOnAction(event -> registration());
-        btnBackToLogin.setOnAction(event -> btnBackToLogin());
+        btnBackToLogin.setOnAction(event -> action(LOGIN_NAME));
     }
 
     private void registration() {
         if (!txtName.getText().isEmpty() && !txtEmail.getText().isEmpty() && !password.getText().isEmpty()) {
         } else {
-            System.out.println("Fill all fields"); return;
+            System.out.println("Fill all fields");
+            return;
         }
 
         if (password.getText().equals(rePassword.getText())) {
         } else {
-            System.out.println("Passwords don`t match"); return;
+            System.out.println("Passwords don`t match");
+            return;
         }
 
         UserService userServiceImpl = ServiceFactory.getUserService();
-        if (userServiceImpl.findByEmail(txtEmail.getText()) == null) {
+        final User userByEmail = userServiceImpl.findByEmail(txtEmail.getText());
+        if (userByEmail == null) {
             User user = new User();
             user.setName(txtName.getText());
             user.setEmail(txtEmail.getText());
             user.setPassword(password.getText());
             userServiceImpl.save(user);
-            toTodos();
-        } else System.out.println("User with such email has already registered");
-
-
-    }
-
-    private void btnBackToLogin() {
-        try {
-            new AppManager().getStage().setScene(new Scene(FXMLLoader.load(getClass().getResource("/view/login.fxml"))));
-        } catch (IOException e) {
-            e.printStackTrace();
+            action(TODO_NAME);
+        } else {
+            System.out.println("User with such email has already registered");
         }
     }
 
-    private void toTodos() {
+    private void action(String path) {
         try {
-            new AppManager().getStage().setScene(new Scene(FXMLLoader.load(getClass().getResource("/view/todos.fxml"))));
+            new AppManager().getStage().setScene(new Scene(FXMLLoader.load(getClass().getResource("/view/" + path))));
         } catch (IOException e) {
             e.printStackTrace();
         }

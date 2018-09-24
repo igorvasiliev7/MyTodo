@@ -7,6 +7,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.AnchorPane;
 import ua.com.mytodo.model.Todo;
 import ua.com.mytodo.service.factory.ServiceFactory;
 
@@ -18,6 +19,8 @@ import java.util.ResourceBundle;
 
 public class AddTodoController implements Initializable {
 
+    @FXML
+    private AnchorPane root;
     @FXML
     private Button btnAdd;
     @FXML
@@ -48,6 +51,10 @@ public class AddTodoController implements Initializable {
         todo.setStatus(selectedStatus);
 
         ServiceFactory.getTodoService().save(todo);
+
+        root.getScene().getWindow().hide();
+//        txtName.clear();
+
     }
 
     private List<String> getStatus() {

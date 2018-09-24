@@ -13,7 +13,7 @@ public class AppManager extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         stage = primaryStage;
-        Parent root = FXMLLoader.load(getClass().getResource("/view/login.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/view/todos.fxml"));
         Scene scene = new Scene(root);
         primaryStage.setScene(scene);
         scene.getStylesheets().add("css/main.css");

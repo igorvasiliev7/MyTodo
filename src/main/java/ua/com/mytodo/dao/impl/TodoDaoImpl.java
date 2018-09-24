@@ -31,7 +31,10 @@ public class TodoDaoImpl implements TodoDao {
 
     @Override
     public List<Todo> findAll() throws SQLException {
-        return dao.queryForAll();
+        return dao
+                .queryBuilder()
+                .orderBy("id", false)
+                .query();
     }
 
     @Override

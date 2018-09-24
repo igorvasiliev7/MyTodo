@@ -3,12 +3,20 @@ package ua.com.mytodo.controller;
 import com.sun.xml.internal.ws.api.ha.StickyFeature;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
+import javafx.stage.Window;
 import ua.com.mytodo.model.Todo;
 import ua.com.mytodo.service.factory.ServiceFactory;
 
@@ -39,6 +47,8 @@ public class TodoController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         init();
         loadTodos();
+        btnAdd.setOnAction(this::add);
+        btnDelete.setOnAction(event -> delete());
     }
 
     private void init() {
@@ -52,5 +62,39 @@ public class TodoController implements Initializable {
         final List<Todo> todos = ServiceFactory.getTodoService().findAll();
         todoList.addAll(todos);
         todosTable.setItems(this.todoList);
+    }
+
+    private void add(ActionEvent event) {
+        try {
+            final FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getResource("/view/addTodo.fxml"));
+            final Parent parent = loader.load();
+
+            final Stage stage = new Stage();
+            final Scene scene = new Scene(parent);
+            scene.getStylesheets().add("css/main.css");
+            stage.setScene(scene);
+            stage.initModality(Modality.WINDOW_MODAL);
+            Window window = ((Node) event.getSource()).getScene().getWindow();
+            stage.initOwner(window);
+            stage.show();
+
+            stage.setOnHiding(e -> {
+                this.todoList.add(findTheLastOne());
+                // TODO: 24.09.2018 first
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private Todo findTheLastOne() {
+        return ServiceFactory.getTodoService().findTheLastOne();
+    }
+
+    private void delete() {
+        final Todo todo = todosTable.getSelectionModel().getSelectedItem();
+        ServiceFactory.getTodoService().delete(todo.getId());
+        todoList.remove(todo);
     }
 }

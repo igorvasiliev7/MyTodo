@@ -8,7 +8,6 @@
     <artifactId>todo-fx</artifactId>
     <version>1.0-SNAPSHOT</version>
 
-
     <properties>
         <ormlite-version>4.48</ormlite-version>
         <sqlite-jdbc.version>3.7.2</sqlite-jdbc.version>
