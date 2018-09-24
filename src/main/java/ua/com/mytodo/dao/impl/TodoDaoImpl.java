@@ -41,4 +41,12 @@ public class TodoDaoImpl implements TodoDao {
     public void delete(int id) {
 
     }
+
+    @Override
+    public Todo findTheLastOne() throws SQLException {
+        return dao
+                .queryBuilder()
+                .orderBy("id", false)
+                .queryForFirst();
+    }
 }

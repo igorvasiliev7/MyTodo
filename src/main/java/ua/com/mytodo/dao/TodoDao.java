@@ -12,4 +12,6 @@ public interface TodoDao {
     List<Todo> findAll() throws SQLException;
 
     void delete(int id);
+
+    Todo findTheLastOne() throws SQLException;
 }

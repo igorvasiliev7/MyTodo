@@ -1,5 +1,6 @@
 package ua.com.mytodo.service.impl;
 
+import com.j256.ormlite.dao.Dao;
 import ua.com.mytodo.dao.TodoDao;
 import ua.com.mytodo.dao.factory.DaoFactory;
 import ua.com.mytodo.model.Todo;
@@ -9,8 +10,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 public class TodoServiceImpl implements TodoService {
-
-    private TodoDao todoDao = DaoFactory.getTodoDao();
+       private TodoDao todoDao = DaoFactory.getTodoDao();
 
     @Override
     public void save(Todo todo) {
@@ -32,9 +32,11 @@ public class TodoServiceImpl implements TodoService {
     }
 
     @Override
-    public Todo findTheLastOne() {
+    public Todo findTheLastOne() throws SQLException {
+        return todoDao.findTheLastOne();
+
         // TODO: 24.09.2018 call dao
-        return null;
+
     }
 
     @Override

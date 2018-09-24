@@ -2,6 +2,7 @@ package ua.com.mytodo.service;
 
 import ua.com.mytodo.model.Todo;
 
+import java.sql.SQLException;
 import java.util.List;
 
 public interface TodoService {
@@ -10,7 +11,7 @@ public interface TodoService {
 
     List<Todo> findAll();
 
-    Todo findTheLastOne();
+    Todo findTheLastOne() throws SQLException;
 
     void delete(int id);
 }

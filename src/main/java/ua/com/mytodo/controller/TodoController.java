@@ -20,7 +20,9 @@ import javafx.stage.Window;
 import ua.com.mytodo.model.Todo;
 import ua.com.mytodo.service.factory.ServiceFactory;
 
+import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -61,7 +63,7 @@ public class TodoController implements Initializable {
     private void loadTodos() {
         final List<Todo> todos = ServiceFactory.getTodoService().findAll();
         todoList.addAll(todos);
-        todosTable.setItems(this.todoList);
+        todosTable.setItems(todoList);
     }
 
     private void add(ActionEvent event) {
@@ -80,7 +82,10 @@ public class TodoController implements Initializable {
             stage.show();
 
             stage.setOnHiding(e -> {
-                this.todoList.add(findTheLastOne());
+
+               todoList.add(findTheLastOne());
+               todosTable.setItems(todoList);
+
                 // TODO: 24.09.2018 first
             });
         } catch (Exception e) {
@@ -89,7 +94,12 @@ public class TodoController implements Initializable {
     }
 
     private Todo findTheLastOne() {
-        return ServiceFactory.getTodoService().findTheLastOne();
+        try {
+            return ServiceFactory.getTodoService().findTheLastOne();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     private void delete() {
