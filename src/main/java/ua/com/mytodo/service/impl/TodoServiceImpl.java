@@ -34,7 +34,12 @@ public class TodoServiceImpl implements TodoService {
     @Override
     public Todo findTheLastOne() {
         // TODO: 24.09.2018 call dao
-        return null;
+        try {
+            return DaoFactory.getTodoDao().findTheLastOne();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     @Override
