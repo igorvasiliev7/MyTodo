@@ -82,8 +82,7 @@ public class TodoController implements Initializable {
             stage.show();
 
             stage.setOnHiding(e -> {
-
-               todoList.add(findTheLastOne());
+               todoList.add(0,findTheLastOne());
                todosTable.setItems(todoList);
 
                 // TODO: 24.09.2018 first
@@ -104,7 +103,11 @@ public class TodoController implements Initializable {
 
     private void delete() {
         final Todo todo = todosTable.getSelectionModel().getSelectedItem();
-        ServiceFactory.getTodoService().delete(todo.getId());
+        try {
+            ServiceFactory.getTodoService().delete(todo.getId());
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         todoList.remove(todo);
     }
 }

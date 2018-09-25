@@ -34,13 +34,11 @@ public class TodoServiceImpl implements TodoService {
     @Override
     public Todo findTheLastOne() throws SQLException {
         return todoDao.findTheLastOne();
-
-        // TODO: 24.09.2018 call dao
-
-    }
+      }
 
     @Override
-    public void delete(int id) {
+    public void delete(int id) throws SQLException {
+        todoDao.delete(id);
 
     }
 }

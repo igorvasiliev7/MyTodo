@@ -38,8 +38,8 @@ public class TodoDaoImpl implements TodoDao {
     }
 
     @Override
-    public void delete(int id) {
-
+    public void delete(int id) throws SQLException {
+        dao.deleteById(id);
     }
 
     @Override
