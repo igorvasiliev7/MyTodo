@@ -84,7 +84,6 @@ public class TodoController implements Initializable {
             stage.setOnHiding(e -> {
                todoList.add(0,findTheLastOne());
                todosTable.setItems(todoList);
-
                 // TODO: 24.09.2018 first
             });
         } catch (Exception e) {
